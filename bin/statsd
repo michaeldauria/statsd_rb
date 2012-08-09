@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), "lib"))
+$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), "..", "lib"))
 require 'statsd'
+require 'yaml'
 
-Statsd::Runner.run!({ :daemonize => true })
+config = YAML.load_file(File.expand_path(File.join(File.dirname(__FILE__), "..", "config", "config.yml")))
+Statsd::Runner.run!(config)
