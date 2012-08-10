@@ -40,3 +40,6 @@ module Statsd
 
   end
 end
+
+Signal.trap('QUIT') { EM.stop }
+Signal.trap('TERM') { EM.stop }
