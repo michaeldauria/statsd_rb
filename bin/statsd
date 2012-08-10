@@ -5,4 +5,5 @@ require 'statsd'
 require 'yaml'
 
 config = YAML.load_file(File.expand_path(File.join(File.dirname(__FILE__), "..", "config", "config.yml")))
-Statsd::Runner.run!(config)
+
+Statsd::Runner.run!(config['server'])

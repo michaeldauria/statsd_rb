@@ -6,9 +6,11 @@ module Statsd
     end
 
     def post_init
-      send_data(@server.aggregate!)
+      data = @server.aggregate!
+      send_data(data)
       close_connection_after_writing
-    end
 
+      @server.notify!(data)
+    end
   end
 end

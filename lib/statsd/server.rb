@@ -1,13 +1,17 @@
 module Statsd
   class Server < EM::Connection
     include Aggregator
+    include Notifier
 
-    attr_reader :config, :counters, :timers
+    attr_reader :config, :counters, :period, :timers
 
     def initialize(config)
       @config   = config
+      @period   = {}
       @timers   = {}
       @counters = {}
+
+      register_notifiers
     end
 
     def receive_data(msg)

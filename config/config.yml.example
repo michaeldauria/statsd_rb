@@ -1,0 +1,34 @@
+app_name: 'App Name Here'
+host: "127.0.0.1"
+port: 8125
+daemonize: false
+debug: false
+flush_interval: 10
+threshold_pct: 90
+graphite_host: "127.0.0.1"
+graphite_port: 2003
+
+notifications:
+  email:
+    from: 'from@appnamehere.com'
+    to:   [ 'you@appnamehere.com' ]
+    host: 'localhost'
+    port: 25
+    domain: 'localhost'
+    starttls: false
+    auth:
+      type: :plain
+      user_name: 'user'
+      password: "password"
+
+  campfire:
+    subdomain: 'appnamehere'
+    api_token: 'token'
+    room_ids: [ 123 ]
+
+rules:
+  "stats.something.to.monitor"
+    threshold:
+      max: 10
+      min: 0
+    peroid: 60 # seconds

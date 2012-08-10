@@ -11,4 +11,4 @@ tmtags
 \#*
 .\#*
 *.swp
-
+config/config.yml
