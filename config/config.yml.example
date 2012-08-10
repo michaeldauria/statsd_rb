@@ -2,7 +2,7 @@ app_name: 'App Name Here'
 host: "127.0.0.1"
 port: 8125
 daemonize: false
-debug: false
+debug: true
 flush_interval: 10
 threshold_pct: 90
 graphite_host: "127.0.0.1"
@@ -27,7 +27,7 @@ notifications:
     room_ids: [ 123 ]
 
 rules:
-  "stats.something.to.monitor"
+  "stats.something.to.monitor":
     threshold:
       max: 10
       min: 0
