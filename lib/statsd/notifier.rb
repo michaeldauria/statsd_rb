@@ -7,14 +7,14 @@ module Statsd
       stat_string.each_line do |line|
         stat, value, ts = line.split(' ')
 
-        if rule = @config[:rules][stat]
+        if rule = @config['rules'][stat]
           if stat_check = check_stat(stat, value, rule)
-            threshold_period = rule[:threshold][:period]
+            threshold_period = rule['threshold']['period']
             if threshold_period
               @period[stat] ||= reset_stat_period(stat)
               @period[stat] += 1
 
-              if @period[stat] == (threshold_period / @config[:flush_interval])
+              if @period[stat] == (threshold_period / @config['flush_interval'])
                 matched << [stat, value, rule, stat_check]
                 @period[stat] = reset_stat_period(stat)
               end
@@ -39,14 +39,14 @@ module Statsd
           '%s: [%s]' % [stat, value]
         ]
 
-        if check[:over_max]
-          msg << 'is over the threshold of %s' % rule[:threshold][:max]
+        if check['over_max']
+          msg << 'is over the threshold of %s' % rule['threshold']['max']
         else
-          msg << 'is under the threshold of %s' % rule[:threshold][:min]
+          msg << 'is under the threshold of %s' % rule['threshold']['min']
         end
 
-        if rule[:threshold][:period]
-          msg << 'for %ss' % rule[:threshold][:period]
+        if rule['threshold']['period']
+          msg << 'for %ss' % rule['threshold']['period']
         end
 
         alert_msgs << msg.join(' ')
@@ -56,15 +56,15 @@ module Statsd
     end
 
     def check_stat(stat, value, rule)
-      threshold_max = rule[:threshold][:max]
-      threshold_min = rule[:threshold][:min]
+      threshold_max = rule['threshold']['max']
+      threshold_min = rule['threshold']['min']
 
       value = value.to_f
       over_max = (threshold_max && value > threshold_max.to_f)
       under_min = (threshold_min && value < threshold_min.to_f)
 
       if (over_max || under_min)
-        { over_max: over_max, under_min: under_min }
+        { 'over_max' => over_max, 'under_min' => under_min }
       else
         false
       end
@@ -72,13 +72,13 @@ module Statsd
 
     def register_notifiers
       @notifiers = []
-      if @config[:notifications]
-        if @config[:notifications][:campfire]
-          @notifiers << Notifier::Campfire.new(@config[:app_name], @config[:notifications][:campfire])
+      if @config['notifications']
+        if @config['notifications']['campfire']
+          @notifiers << Notifier::Campfire.new(@config['app_name'], @config['notifications']['campfire'])
         end
 
-        if @config[:notifications][:email]
-          @notifiers << Notifier::Email.new(@config[:app_name], @config[:notifications][:email])
+        if @config['notifications']['email']
+          @notifiers << Notifier::Email.new(@config['app_name'], @config['notifications']['email'])
         end
       end
     end

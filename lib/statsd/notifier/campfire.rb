@@ -6,10 +6,10 @@ module Statsd
     end
 
     def send!(messages)
-      @config[:room_ids].each do |room_id|
+      @config['room_ids'].each do |room_id|
         http = EventMachine::HttpRequest.new(campfire_create_message_url(room_id)).post({
           head: {
-            'authorization' => [@config[:api_token], 'X'],
+            'authorization' => [@config['api_token'], 'X'],
             'content-type' => 'text/xml'
           },
           body: campfire_message(@app_name, messages)
@@ -20,7 +20,7 @@ module Statsd
     private
 
     def campfire_create_message_url(room_id)
-      'https://%s.campfirenow.com/room/%s/speak.xml' % [ @config[:subdomain], room_id ]
+      'https://%s.campfirenow.com/room/%s/speak.xml' % [ @config['subdomain'], room_id ]
     end
 
     def campfire_message(app_name, messages)

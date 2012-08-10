@@ -3,12 +3,12 @@ module Statsd
     def initialize(app_name, config)
       @app_name = app_name
       @config = {
-        domain:   'localhost',
-        host:     'localhost',
-        port:     25,
-        starttls: false,
-        from:     'statsd alerts',
-        to:       []
+        'domain'  => 'localhost',
+        'host'    => 'localhost',
+        'port'    => 25,
+        'starttls'=> false,
+        'from'    => 'statsd alerts',
+        'to'      => []
       }.merge!(config)
     end
 

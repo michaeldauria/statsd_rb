@@ -7,7 +7,7 @@ module Statsd
       num_stats   = 0
 
       @counters.each do |k,v|
-        val = v / (@config[:flush_interval])
+        val = v / (@config['flush_interval'])
         stat_string << "stats.%s %s %d\n"        % [ k, val, ts ]
         stat_string << "stats_counts.%s %s %d\n" % [ k, v, ts ]
 
@@ -16,7 +16,7 @@ module Statsd
       end
 
       @timers.each do |k,v|
-        pct_thresh  = @config[:threshold_pct]
+        pct_thresh  = @config['threshold_pct']
         values      = v.sort { |a,b| a-b }
         min         = values.first
         max         = values.last
@@ -49,7 +49,7 @@ module Statsd
       end
 
       stat_string << "statsd.numStats %d %d\n" % [ num_stats, ts ]
-      $stderr.puts stat_string if (@config[:debug])
+      $stderr.puts stat_string if (@config['debug'])
 
       stat_string
     end

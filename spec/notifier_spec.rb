@@ -3,10 +3,10 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 describe Statsd::Notifier do
   before do
     config = Statsd::Runner.default_config.merge({
-      :rules => {
-        "stats.timers.important.mean" => { :threshold => { :min => 5, :max => 10 } },
-        "stats.timers.very_important.mean" => { :threshold => { :min => 1, :max => 5 } },
-        "stats.timers.period_check.mean" => { :threshold => { :min => 1, :max => 5, :period => 20 } }
+      'rules' => {
+        "stats.timers.important.mean" => { 'threshold' => { 'min' => 5, 'max' => 10 } },
+        "stats.timers.very_important.mean" => { 'threshold' => { 'min' => 1, 'max' => 5 } },
+        "stats.timers.period_check.mean" => { 'threshold' => { 'min' => 1, 'max' => 5, 'period' => 20 } }
       }
     })
     @server = Statsd::Server.new('signature', config)
@@ -48,8 +48,8 @@ describe 'Statsd::Notifier.alert_messages' do
 
   it "has an appropriate alert message" do
     matched = [
-      [ "stats.timers.important.mean", 50, { :threshold => { :min => 5, :max => 10 } }, { over_max: true, under_min: true } ],
-      [ "stats.timers.period_check.mean", 0, { :threshold => { :min => 1, :max => 5, :period => 20 } }, { over_max: false, under_min: true } ]
+      [ "stats.timers.important.mean", 50, { 'threshold' => { 'min' => 5, 'max' => 10 } }, { 'over_max' => true, 'under_min' => true } ],
+      [ "stats.timers.period_check.mean", 0, { 'threshold' => { 'min' => 1, 'max' => 5, 'period' => 20 } }, { 'over_max' => false, 'under_min' => true } ]
     ]
 
     @server.alert_messages(matched).should == ["stats.timers.important.mean: [50] is over the threshold of 10", "stats.timers.period_check.mean: [0] is under the threshold of 1 for 20s"]

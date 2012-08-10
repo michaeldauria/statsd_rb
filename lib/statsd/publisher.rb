@@ -10,7 +10,7 @@ module Statsd
       send_data(data)
       close_connection_after_writing
 
-      @server.notify!(data) if @server.config[:rules]
+      @server.notify!(data) if @server.config['rules']
     end
   end
 end

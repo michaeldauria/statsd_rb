@@ -15,7 +15,7 @@ module Statsd
     end
 
     def receive_data(msg)
-      $stderr.puts msg if (@config[:debug])
+      $stderr.puts msg if (@config['debug'])
 
       bits = msg.split(':')
       key  = bits.first.gsub(/\s+/, '_').gsub(/\//, '-').gsub(/[^a-zA-Z_\-0-9\.]/, '')
@@ -40,10 +40,10 @@ module Statsd
             @counters[key] += (fields[0].to_f || 1) * (1/sample_rate)
           else
             # do nothing
-            $stderr.puts "Unsupported type: #{msg}" if (@config[:debug])
+            $stderr.puts "Unsupported type: #{msg}" if (@config['debug'])
           end
         else
-          $stderr.puts "Invalid line: #{msg}" if (@config[:debug])
+          $stderr.puts "Invalid line: #{msg}" if (@config['debug'])
         end
       end
     end
