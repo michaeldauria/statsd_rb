@@ -16,6 +16,10 @@ module Statsd
     end
 
     def self.run!(opts = {})
+      # symbolize keys
+      opts.keys.each do |key|
+        opts[(key.to_sym rescue key) || key] = opts.delete(key)
+      end
       config = self.default_config.merge(opts)
 
       EM::run do
