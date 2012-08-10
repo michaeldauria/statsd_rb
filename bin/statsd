@@ -7,5 +7,5 @@ require 'yaml'
 if ARGV.empty?
   puts 'Usage statsd <config_file>'
 else
-  Statsd::Runner.run!(ARGV.first)
+  Statsd::Runner.run!(YAML.load_file(ARGV.first))
 end
