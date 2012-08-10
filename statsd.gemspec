@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "statsd"
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael D'Auria"]
-  s.date = "2012-08-09"
+  s.date = "2012-08-10"
   s.description = "StatsD (Ruby Edition)\n=====================\nA network daemon for aggregating statistics (counters and timers), rolling them up, then sending them to [graphite](http://graphite.wikidot.com/).\n\nWhy?\n----\nBecause we at SeatGeek are more comfortable looking at Ruby than JavaScript on the server side. This is created using EventMachine and follows the same specs as the original StatsD.\n\nContributing to statsd_rb\n----------------------\n\n* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet\n* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it\n* Fork the project\n* Start a feature/bugfix branch\n* Commit and push until you are happy with your contribution\n* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.\n* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.\n\nCopyright\n---------\n\nCopyright (c) 2011 Michael D'Auria. See LICENSE.txt for\nfurther details.\n"
   s.email = "michael.dauria@gmail.com"
   s.executables = ["statsd"]
@@ -24,16 +24,20 @@ Gem::Specification.new do |s|
     "README.md",
     "Rakefile",
     "bin/statsd",
-    "config/config.yml",
+    "config/config.yml.example",
     "contrib/monitor.html",
     "lib/statsd.rb",
     "lib/statsd/aggregator.rb",
     "lib/statsd/client.rb",
+    "lib/statsd/notifier.rb",
+    "lib/statsd/notifier/campfire.rb",
+    "lib/statsd/notifier/email.rb",
     "lib/statsd/publisher.rb",
     "lib/statsd/runner.rb",
     "lib/statsd/server.rb",
     "lib/statsd/version.rb",
     "spec/aggregator_spec.rb",
+    "spec/notifier_spec.rb",
     "spec/server_spec.rb",
     "spec/spec_helper.rb",
     "statsd.gemspec",
@@ -42,7 +46,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/seatgeek/statsd_rb"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "1.8.22"
   s.summary = "A network daemon for aggregating statistics (counters and timers), rolling them up, then sending them to graphite."
 
   if s.respond_to? :specification_version then
@@ -50,12 +54,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<eventmachine>, [">= 0.12.10"])
+      s.add_runtime_dependency(%q<em-http-request>, [">= 0"])
       s.add_runtime_dependency(%q<daemons>, ["~> 1.1.0"])
       s.add_development_dependency(%q<bundler>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
     else
       s.add_dependency(%q<eventmachine>, [">= 0.12.10"])
+      s.add_dependency(%q<em-http-request>, [">= 0"])
       s.add_dependency(%q<daemons>, ["~> 1.1.0"])
       s.add_dependency(%q<bundler>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
@@ -63,6 +69,7 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<eventmachine>, [">= 0.12.10"])
+    s.add_dependency(%q<em-http-request>, [">= 0"])
     s.add_dependency(%q<daemons>, ["~> 1.1.0"])
     s.add_dependency(%q<bundler>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])

@@ -4,6 +4,8 @@ $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), "..", "lib
 require 'statsd'
 require 'yaml'
 
-config = YAML.load_file(File.expand_path(File.join(File.dirname(__FILE__), "..", "config", "config.yml")))
-
-Statsd::Runner.run!(config['server'])
+if ARGV.empty?
+  puts 'Usage statsd <config_file>'
+else
+  Statsd::Runner.run!(ARGV.first)
+end
