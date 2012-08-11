@@ -10,7 +10,12 @@ module Statsd
       send_data(data)
       close_connection_after_writing
 
-      @server.notify!(data) if @server.config['rules']
+      begin
+        @server.notify!(data) if @server.config['rules']
+      rescue Exception => e
+        puts e
+        puts e.backtrace
+      end
     end
   end
 end
