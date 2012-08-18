@@ -9,3 +9,6 @@ if ARGV.empty?
 else
   Statsd::Runner.run!(YAML.load_file(ARGV.first))
 end
+
+Signal.trap('QUIT') { EM.stop }
+Signal.trap('TERM') { EM.stop }
